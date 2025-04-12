@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
-
+MEDIA_ROOT = '/static/media/'
 # Application definition
 
 INSTALLED_APPS = [
