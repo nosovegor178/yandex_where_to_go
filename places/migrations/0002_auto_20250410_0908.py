@@ -18,7 +18,6 @@ def parse_places(apps, schema_editor):
     for file_id, filename in enumerate(os.listdir(path)):
         place = get_info_about_place(path, filename)
         Place.objects.create(
-            id = file_id,
             title = place['title'],
             description_short = place['description_short'],
             description_long = place['description_long'],
