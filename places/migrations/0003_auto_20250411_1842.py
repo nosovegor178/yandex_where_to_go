@@ -19,7 +19,7 @@ def get_images_and_name_of_place(path, filename):
 
 
 def download_image_and_get_path_and_name(img_url, place_name, img_id):
-    directory =f'static\media\{place_name}'
+    directory =f'.\static\media\{place_name}'
     img_name = f'{img_id} {place_name}.jpg'
     path_to_img = os.path.join(directory, img_name)
     if not os.path.exists(directory):

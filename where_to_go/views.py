@@ -1,34 +1,50 @@
-from django.http import JsonResponse
-from places.models import Place
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-import os
+from places.models import Place
+from django.http import JsonResponse
+from django.urls import reverse
 
 
 def start_page(request):
     places = Place.objects.all()
-    places_info = []
-    for place_id, place in enumerate(places):
-        place_info = build_page_with_json(place_id=place_id).content
-        places_info.append({
-            'title': place.title,
-            'place_id': place.id,
-            'coords': [float(place.longitude), float(place.latitude)],
-            'json': place_info
-        })
-    return render(request, 'index.html', context = {'places': places_info})
+    features = [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [place.longitude, place.latitude]
+            },
+            "properties": {
+                "title": place.title,
+                "placeId": place.id,
+                "detailsUrl": reverse(build_page_with_json, kwargs={'place_id': place.id})
+            }
+        } for place in places
+    ]
+    context = {
+        'places': {
+            "type": "FeatureCollection",
+            "features": features
+        }
+    }
+    return render(request, 'index.html', context)
 
 
 def build_page_with_json(request, place_id):
-    place = Place.objects.all()[place_id]
-    places_images = []
-    for img in place.images.all():
-        places_images.append(img.image.url)
-    place_info = {
-        'title': place.title,
-        'imgs': places_images,
-        'description_short': place.description_short,
-        'description_long': place.description_long,
-        'coords': [place.longitude, place.latitude]
+    place = get_object_or_404(Place, id=place_id)
+    images_urls = []
+    for image in place.images.all():
+        image_url = image.image.url
+        images_urls.append(image_url)
+
+    payload = {
+        "title": place.title,
+        "imgs": images_urls,
+        "description_short": place.description_short,
+        "description_long": place.description_long,
+        "coordinates": {
+            "lng": place.longitude,
+            "lat": place.latitude,
+        }
     }
-    json_place_info = JsonResponse(place_info, json_dumps_params={'ensure_ascii': False, 'indent': 2})
-    return json_place_info
+    return JsonResponse(payload, json_dumps_params={'ensure_ascii': False})
