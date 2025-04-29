@@ -45,7 +45,6 @@ def parse_images(apps, schema_editor):
         for img_number, img in enumerate(place['images']):
             path_to_img, img_name = download_image_and_get_path_and_name(img, place['name'], img_number+1)
             Image.objects.create(
-                # place = Place.objects.get(id = file_id),
                 title = img_name,
                 image = path_to_img
             )
@@ -59,8 +58,10 @@ def move_backward(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
+    atomic = False
+
     dependencies = [
-        ('places', '0002_auto_20250410_0908'),
+        ('places', '0003_auto_20250429_2026'),
     ]
 
     operations = [

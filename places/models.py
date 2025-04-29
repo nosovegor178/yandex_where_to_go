@@ -16,9 +16,19 @@ class Place(models.Model):
     latitude = models.CharField(max_length=100, verbose_name='Широта')
     longitude = models.CharField(max_length=100, verbose_name='Долгота')
     images = models.ManyToManyField(Image,
+                                    through='PlaceImage',
                                     blank=True,
                                     related_name='place',
                                     verbose_name='Изображения')
 
     def __str__(self):
         return f'{self.title}'
+
+
+class PlaceImage(models.Model):
+    place = models.ForeignKey('Place', on_delete=models.CASCADE)
+    image = models.ForeignKey('Image', on_delete=models.CASCADE)
+    images_order = models.PositiveIntegerField(default=0, db_index=True)
+
+    class Meta:
+        ordering = ['images_order']
