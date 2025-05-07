@@ -12,24 +12,22 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from environs import env
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+env.read_env()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hv@z6kbfv&wcnk&6g0p%@m3h^7867w91@hwz=0ov3z229ewen6'
+SECRET_KEY = env.str('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [''])
 
 MEDIA_ROOT = './static/media/'
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'places.apps.PlacesConfig',
-    'adminsortable2'
+    'adminsortable2',
+    'tinymce',
 ]
 
 STATICFILES_DIRS = [
@@ -82,8 +81,8 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env.str('DB_ENGINE'),
+        'NAME': BASE_DIR / env.str('DB_NAME'),
     }
 }
 

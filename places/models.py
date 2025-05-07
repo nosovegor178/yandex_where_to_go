@@ -1,6 +1,7 @@
 from django.db import models
+from tinymce import models as tinymce_models
 
-# Create your models here.
+
 class Image(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     image = models.ImageField(verbose_name='Изображение')
@@ -12,7 +13,7 @@ class Image(models.Model):
 class Place(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     description_short = models.TextField(verbose_name='Краткое описание')
-    description_long = models.TextField(verbose_name='Полное описание')
+    description_long = tinymce_models.HTMLField(verbose_name='Полное описание')
     latitude = models.CharField(max_length=100, verbose_name='Широта')
     longitude = models.CharField(max_length=100, verbose_name='Долгота')
     images = models.ManyToManyField(Image,
