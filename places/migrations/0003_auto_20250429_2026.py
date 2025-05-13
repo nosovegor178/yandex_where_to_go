@@ -2,7 +2,6 @@ from django.db import migrations
 from places.models import Place
 import codecs
 import json
-import os
 
 
 def get_info_about_place(path, filename):
@@ -13,8 +12,8 @@ def get_info_about_place(path, filename):
 
 
 def parse_places(apps, schema_editor):
-    path = 'static/places/'
-    for file_id, filename in enumerate(os.listdir(path)):
+    path = '/static/places/'
+    for filename in path:
         place = get_info_about_place(path, filename)
         Place.objects.get_or_create(
             title = place['title'],
