@@ -19,7 +19,7 @@ def get_images_and_name_of_place(path, filename):
 
 
 def download_image_and_get_path_and_name(img_url, place_name, img_id):
-    media_path = '.\static\media'
+    media_path = '.\media'
     img_name = f'{img_id} {place_name}.jpg'
     path_to_download = os.path.join(media_path, place_name)
     path_to_img = os.path.join(path_to_download, img_name)
@@ -38,7 +38,7 @@ def update_place_relationships(place_name):
 
 
 def parse_images(apps, schema_editor):
-    path = 'static/places/'
+    path = './static/places/'
     for file_id, filename in enumerate(os.listdir(path)):
         place = get_images_and_name_of_place(path, filename)
         for img_number, img in enumerate(place['images']):

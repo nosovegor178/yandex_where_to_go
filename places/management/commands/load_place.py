@@ -14,8 +14,9 @@ def get_json_info(url):
 
 
 def download_image_and_get_path_and_name(img_url, place_name, img_id):
-    media_path = '.\static\media'
+    media_path = '.\media'
     img_name = f'{img_id} {place_name}.jpg'
+    django_path = os.path.join(place_name, img_name)
     path_to_download = os.path.join(media_path, place_name)
     path_to_img = os.path.join(path_to_download, img_name)
     if not os.path.exists(path_to_download):
@@ -24,7 +25,7 @@ def download_image_and_get_path_and_name(img_url, place_name, img_id):
     response.raise_for_status()
     with open(path_to_img, 'wb') as file:
         file.write(response.content)
-    return path_to_img, img_name
+    return django_path, img_name
     
 
 def update_place_relationships(place_name):
@@ -56,7 +57,11 @@ def parse_images(url):
 
 class Command(BaseCommand):
     help = 'Download json data with url'
-
     def handle(self, *args, **options):
-        parse_place('https://raw.githubusercontent.com/devmanorg/where-to-go-places/refs/heads/master/places/%D0%90%D0%BD%D1%82%D0%B8%D0%BA%D0%B0%D1%84%D0%B5%20Bizone.json')
-        parse_images('https://raw.githubusercontent.com/devmanorg/where-to-go-places/refs/heads/master/places/%D0%90%D0%BD%D1%82%D0%B8%D0%BA%D0%B0%D1%84%D0%B5%20Bizone.json')
+        parse_place(options['url'])
+        parse_images(options['url'])
+    def add_arguments(self, parser):
+        parser.add_argument(
+        'url',
+        help='Neccesary path to json-file in the Inthernet'
+        )
