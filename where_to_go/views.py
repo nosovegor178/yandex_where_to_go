@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from django.urls import reverse
 
 
-
 def start_page(request):
     places = Place.objects.all()
     features = [
@@ -18,7 +17,8 @@ def start_page(request):
             "properties": {
                 "title": place.title,
                 "placeId": place.id,
-                "detailsUrl": reverse(build_page_with_json, kwargs={'place_id': place.id})
+                "detailsUrl": reverse(build_page_with_json,
+                                      kwargs={'place_id': place.id})
             }
         } for place in places
     ]
