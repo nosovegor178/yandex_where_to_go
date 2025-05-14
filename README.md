@@ -63,7 +63,7 @@ Url - это адрес json-файла в интернете. Файл долж
 
 Выглядеть сайт будет так:
 
-![Пример запуска](.gitbook\assets\preview.jpg "Пример запуска")
+![Пример запуска](.gitbook/assets/preview.jpg "Пример запуска")
 
 Также можно проверить сайт в работе по этому [адресу](https://moonlightshdwgrm.pythonanywhere.com/).
 
