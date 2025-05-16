@@ -18,7 +18,7 @@ def start_page(request):
             'properties': {
                 'title': place.title,
                 'placeId': place.id,
-                'detailsUrl': reverse(build_page_with_json,
+                'detailsUrl': reverse(parse_place_details,
                                       kwargs={'place_id': place.id})
             }
         } for place in places
@@ -32,7 +32,7 @@ def start_page(request):
     return render(request, 'index.html', context)
 
 
-def build_page_with_json(request, place_id):
+def parse_place_details(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     images_urls = []
     for image in place.images.all():
