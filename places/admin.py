@@ -5,7 +5,6 @@ from django.utils.safestring import mark_safe
 from adminsortable2.admin import SortableAdminBase, SortableTabularInline
 
 
-
 def preview_inline(obj):
     try:
         if obj.image_id:

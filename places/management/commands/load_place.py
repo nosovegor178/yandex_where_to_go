@@ -44,8 +44,8 @@ def parse_place(url):
     place = get_json_info_by_url(url)
     Place.objects.get_or_create(
         title=place['title'],
-        description_short=place['description_short'],
-        description_long=place['description_long'],
+        short_description=place['short_description'],
+        long_description=place['long_description'],
         latitude=place['coordinates']['lat'],
         longitude=place['coordinates']['lng']
     )

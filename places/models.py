@@ -12,10 +12,10 @@ class Image(models.Model):
 
 class Place(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
-    description_short = models.TextField(verbose_name='Краткое описание')
-    description_long = tinymce_models.HTMLField(verbose_name='Полное описание')
-    latitude = models.CharField(max_length=100, verbose_name='Широта')
-    longitude = models.CharField(max_length=100, verbose_name='Долгота')
+    short_description = models.TextField(verbose_name='Краткое описание', blank=True)
+    long_description = tinymce_models.HTMLField(verbose_name='Полное описание', blank=True)
+    latitude = models.IntegerField(verbose_name='Широта')
+    longitude = models.IntegerField(verbose_name='Долгота')
     images = models.ManyToManyField(Image,
                                     through='PlaceImage',
                                     blank=True,
