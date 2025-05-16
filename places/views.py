@@ -10,23 +10,23 @@ def start_page(request):
     places = Place.objects.all()
     features = [
         {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [place.longitude, place.latitude]
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [place.longitude, place.latitude]
             },
-            "properties": {
-                "title": place.title,
-                "placeId": place.id,
-                "detailsUrl": reverse(build_page_with_json,
+            'properties': {
+                'title': place.title,
+                'placeId': place.id,
+                'detailsUrl': reverse(build_page_with_json,
                                       kwargs={'place_id': place.id})
             }
         } for place in places
     ]
     context = {
         'places': {
-            "type": "FeatureCollection",
-            "features": features
+            'type': 'FeatureCollection',
+            'features': features
         }
     }
     return render(request, 'index.html', context)
@@ -40,13 +40,13 @@ def build_page_with_json(request, place_id):
         images_urls.append(image_url)
 
     payload = {
-        "title": place.title,
-        "imgs": images_urls,
-        "short_description": place.short_description,
-        "long_description": place.long_description,
-        "coordinates": {
-            "lng": place.longitude,
-            "lat": place.latitude,
+        'title': place.title,
+        'imgs': images_urls,
+        'short_description': place.short_description,
+        'long_description': place.long_description,
+        'coordinates': {
+            'lng': place.longitude,
+            'lat': place.latitude,
         }
     }
     return JsonResponse(payload, json_dumps_params={'ensure_ascii': False})
