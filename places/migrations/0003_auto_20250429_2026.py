@@ -1,8 +1,11 @@
+from decimal import Decimal
 from django.db import migrations
-from places.models import Place
-import os
+
 import codecs
 import json
+import os
+
+from places.models import Place
 
 
 def get_info_about_place(path, filename):
@@ -18,10 +21,10 @@ def parse_places(apps, schema_editor):
         place = get_info_about_place(path, filename)
         Place.objects.get_or_create(
             title = place['title'],
-            short_description = place['short_description'],
-            long_description = place['long_description'],
-            latitude = place['coordinates']['lat'],
-            longitude = place['coordinates']['lng']
+            short_description = place['description_short'],
+            long_description = place['description_long'],
+            latitude = Decimal(place['coordinates']['lat']),
+            longitude = Decimal(place['coordinates']['lng'])
         )
 
 

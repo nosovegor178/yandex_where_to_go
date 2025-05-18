@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='place',
-            name='description_long',
-            field=tinymce.models.HTMLField(verbose_name='Полное описание'),
+            name='long_description',
+            field=tinymce.models.HTMLField(verbose_name='Полное описание', blank=True),
         ),
     ]

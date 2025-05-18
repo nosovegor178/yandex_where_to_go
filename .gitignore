@@ -100,4 +100,5 @@ dmypy.json
 cython_debug/
 
 media/*
+collected_static/*
 .editorconfig
