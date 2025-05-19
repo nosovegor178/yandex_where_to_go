@@ -1,7 +1,6 @@
 from django.contrib import admin
 from places.models import Place, Image
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 from adminsortable2.admin import SortableAdminBase, SortableTabularInline
 
 
@@ -9,9 +8,13 @@ def preview_inline(obj):
     try:
         if obj.id:
             image = Image.objects.get(pk=obj.id)
-            return format_html('<img src="{}" style="max-width:300px; max-height: 200px;">', image.image.url)
+            return format_html(
+                '<img src="{}" style="max-width:300px; max-height: 200px;">',
+                image.image.url)
     except Exception as e:
-        return format_html('<span style="color: red;">Ошибка загрузки: {}</span>', e)
+        return format_html(
+            '<span style="color: red;">Ошибка загрузки: {}</span>', e
+            )
 
 
 class AdminInline(SortableTabularInline):
@@ -37,6 +40,8 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     def preview(obj):
-        return format_html('<img src="{}" style="max-width:300px; max-height:200px;">', obj.image.url)
+        return format_html(
+            '<img src="{}" style="max-width:300px; max-height:200px;">',
+            obj.image.url)
     list_display = ['title',]
     readonly_fields = [preview,]

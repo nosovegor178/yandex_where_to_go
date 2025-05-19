@@ -1,6 +1,5 @@
 from decimal import Decimal
 from django.core.management.base import BaseCommand
-from django.conf import settings
 from django.db.models import Q
 import requests
 
@@ -41,7 +40,7 @@ def parse_images(url):
         img_name = '{} {}.jpg'.format(img_number+1, place['title'])
         path_to_img = os.path.join(place['title'], img_name)
         Image.objects.create(
-            place = Place.objects.get(Q(title__contains=place['title'])),
+            place=Place.objects.get(Q(title__contains=place['title'])),
             title=img_name,
             image=path_to_img
         )

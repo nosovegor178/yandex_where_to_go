@@ -34,10 +34,8 @@ def start_page(request):
 
 def parse_place_details(request, place_id):
     place = get_object_or_404(Place, id=place_id)
-    images_urls = []
-    for image in Image.objects.filter(place=place):
-        image_url = image.image.url
-        images_urls.append(image_url)
+    images_urls = [image.image.url for image in Image.objects.filter(
+        place=place)]
 
     payload = {
         'title': place.title,

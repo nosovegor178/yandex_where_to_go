@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env.str('SECRET_KEY')
 
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [''])
 
@@ -21,8 +21,11 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,10 +37,12 @@ INSTALLED_APPS = [
     'places.apps.PlacesConfig',
     'adminsortable2',
     'tinymce',
+    "debug_toolbar",
 ]
 
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,16 +80,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': '''django.contrib.auth.password_
+        validation.UserAttributeSimilarityValidator''',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': '''django.contrib.auth.password_
+        validation.MinimumLengthValidator''',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': '''django.contrib.auth.password_
+        validation.CommonPasswordValidator''',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': '''django.contrib.auth.password_
+        validation.NumericPasswordValidator''',
     },
 ]
 
