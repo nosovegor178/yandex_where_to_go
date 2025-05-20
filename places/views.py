@@ -18,7 +18,7 @@ def start_page(request):
             'properties': {
                 'title': place.title,
                 'placeId': place.id,
-                'detailsUrl': reverse(parse_place_details,
+                'detailsUrl': reverse('parse_place_details',
                                       kwargs={'place_id': place.id})
             }
         } for place in places

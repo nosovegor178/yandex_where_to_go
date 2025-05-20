@@ -12,7 +12,7 @@ from places import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.start_page),
-    path('places/<int:place_id>/', views.parse_place_details),
+    path('places/<int:place_id>/', views.parse_place_details, name='parse_place_details'),
     path('tinymce/', include('tinymce.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
