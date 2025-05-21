@@ -3,10 +3,15 @@ from tinymce import models as tinymce_models
 
 
 class Image(models.Model):
-    place = models.ForeignKey('Place', on_delete=models.CASCADE, null=True)
+    place = models.ForeignKey('Place',
+                              on_delete=models.CASCADE,
+                              related_name='images',
+                              verbose_name='Место')
     title = models.CharField(max_length=255, verbose_name='Название')
     image = models.ImageField(verbose_name='Изображение')
-    images_order = models.PositiveIntegerField(default=0, db_index=True)
+    images_order = models.PositiveIntegerField(default=0,
+                                               db_index=True,
+                                               verbose_name='Порядковый номер')
 
     class Meta:
         ordering = ['images_order']

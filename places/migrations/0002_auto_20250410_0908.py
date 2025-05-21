@@ -28,8 +28,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=255, verbose_name='Название')),
                 ('image', models.ImageField(upload_to='', verbose_name='Изображение')),
-                ('place', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='places.place')),
-                ('images_order', models.PositiveIntegerField(db_index=True, default=0)),
+                ('place', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='places.place', related_name='images', verbose_name='Место')),
+                ('images_order', models.PositiveIntegerField(db_index=True, default=0, verbose_name='Порядковый номер')),
             ],
             options={
                 'ordering': ['images_order'],
