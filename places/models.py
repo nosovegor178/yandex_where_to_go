@@ -7,7 +7,6 @@ class Image(models.Model):
                               on_delete=models.CASCADE,
                               related_name='images',
                               verbose_name='Место')
-    title = models.CharField(max_length=255, verbose_name='Название')
     image = models.ImageField(verbose_name='Изображение')
     images_order = models.PositiveIntegerField(default=0,
                                                db_index=True,
@@ -17,7 +16,7 @@ class Image(models.Model):
         ordering = ['images_order']
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.place}'
 
 
 class Place(models.Model):

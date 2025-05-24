@@ -6,11 +6,10 @@ from adminsortable2.admin import SortableAdminBase, SortableTabularInline
 
 def preview_inline(obj):
     try:
-        if obj.id:
-            image = Image.objects.get(pk=obj.id)
-            return format_html(
-                '<img src="{}" style="max-width:300px; max-height: 200px;">',
-                image.image.url)
+        image = Image.objects.get(pk=obj.id)
+        return format_html(
+            '<img src="{}" style="max-width:300px; max-height: 200px;">',
+            image.image.url)
     except Exception as e:
         return format_html(
             '<span style="color: red;">Ошибка загрузки: {}</span>', e
@@ -32,7 +31,6 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [
         AdminInline
     ]
-
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -43,5 +41,6 @@ class ImageAdmin(admin.ModelAdmin):
         return format_html(
             '<img src="{}" style="max-width:300px; max-height:200px;">',
             obj.image.url)
-    list_display = ['title',]
+    list_display = ['place',]
+    raw_id_fields = ['place',]
     readonly_fields = [preview,]

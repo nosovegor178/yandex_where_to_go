@@ -23,35 +23,35 @@ def get_json_info_by_url(url):
     return response.json()
 
 
-def parse_place(url):
+def parse_place_with_images(url):
     place = get_json_info_by_url(url)
-    Place.objects.get_or_create(
+    parsed_place = Place.objects.get_or_create(
         title=place['title'],
-        short_description=place['description_short'],
-        long_description=place['description_long'],
-        latitude=Decimal(place['coordinates']['lat']),
-        longitude=Decimal(place['coordinates']['lng'])
-    )
-
-
-def parse_images(url):
-    place = get_json_info_by_url(url)
+        defaults={
+            'short_description': place['description_short'],
+            'long_description': place['description_long'],
+            'latitude': Decimal(place['coordinates']['lat']),
+            'longitude': Decimal(place['coordinates']['lng']),
+        }
+    )[0]
     for img_number, img in enumerate(place['imgs']):
-        img_name = '{} {}.jpg'.format(img_number+1, place['title'])
-        path_to_img = os.path.join(place['title'], img_name)
-        Image.objects.create(
-            place=Place.objects.get(Q(title__contains=place['title'])),
-            title=img_name,
-            image=path_to_img
-        )
+        try:
+            img_name = '{} {}.jpg'.format(img_number+1, parsed_place.title)
+            path_to_img = os.path.join(parsed_place.title, img_name)
+            Image.objects.create(
+                place=parsed_place,
+                image=path_to_img
+            )
+        except requests.exceptions.HTTPError or\
+                requests.exceptions.ConnectionError:
+            pass
 
 
 class Command(BaseCommand):
     help = 'Download json data with url or with local path and parse it to DB.'
 
     def handle(self, *args, **options):
-        parse_place(options['url'])
-        parse_images(options['url'])
+        parse_place_with_images(options['url'])
 
     def add_arguments(self, parser):
         parser.add_argument(

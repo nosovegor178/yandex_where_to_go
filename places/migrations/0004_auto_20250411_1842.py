@@ -28,7 +28,6 @@ def parse_images(apps, schema_editor):
             path_to_img = os.path.join(place['name'], img_name)
             Image.objects.create(
                 place = Place.objects.get(Q(title__contains=place['name'])),
-                title = img_name,
                 image = path_to_img
             )
 
