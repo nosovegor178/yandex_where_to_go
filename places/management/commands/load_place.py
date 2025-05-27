@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import Q
 import requests
@@ -23,6 +24,19 @@ def get_json_info_by_url(url):
     return response.json()
 
 
+def download_image_and_get_path_and_name(img_url, place_name, img_name):
+    media_path = os.path.join(settings.MEDIA_ROOT, place_name)
+    path_to_img = os.path.join(media_path, img_name)
+    if not os.path.exists(media_path):
+        os.makedirs(media_path)
+    response = requests.get(img_url)
+    response.raise_for_status()
+    with open(path_to_img, 'wb') as file:
+        file.write(response.content)
+    relative_path = os.path.join(place_name, img_name)
+    return relative_path, img_name
+
+
 def parse_place_with_images(url):
     place = get_json_info_by_url(url)
     parsed_place = Place.objects.get_or_create(
@@ -38,6 +52,7 @@ def parse_place_with_images(url):
         try:
             img_name = '{} {}.jpg'.format(img_number+1, parsed_place.title)
             path_to_img = os.path.join(parsed_place.title, img_name)
+            download_image_and_get_path_and_name(img, place['title'], img_name)
             Image.objects.create(
                 place=parsed_place,
                 image=path_to_img
