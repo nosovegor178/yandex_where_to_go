@@ -6,10 +6,9 @@ from adminsortable2.admin import SortableAdminBase, SortableTabularInline
 
 def preview_inline(obj):
     try:
-        image = Image.objects.get(pk=obj.id)
         return format_html(
             '<img src="{}" style="max-width:300px; max-height: 200px;">',
-            image.image.url)
+            obj.image.url)
     except Exception as e:
         return format_html(
             '<span style="color: red;">Ошибка загрузки: {}</span>', e
